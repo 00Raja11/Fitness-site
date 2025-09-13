@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Khan's Fitness</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    body { font-family: 'Poppins', sans-serif; padding: 20px; background: #f0f4f8; }
+    h1 { text-align: center; margin-bottom: 20px; color: #333; }
+    .search-container { text-align: center; margin-bottom: 20px; }
+    .search-container input {
+      padding: 10px;
+      width: 250px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      transition: 0.3s;
+    }
+    .search-container input:focus { border-color: #6bc1ff; box-shadow: 0 0 10px rgba(107,193,255,0.4); }
+    
+    table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: linear-gradient(90deg, #6bc1ff, #6bffb1); color: #fff; }
+    tr:hover { background-color: #f1faff; transition: 0.3s; }
+    
+    .highlight { animation: highlightRow 2s ease-in-out; background-color: #fffae6 !important; }
+    
+    @keyframes highlightRow {
+      0% { background-color: #fff3cd; }
+      100% { background-color: #ffffff; }
+    }
+
+    .container { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard - Form Submissions</h1>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by name, age, gender, or locality..." />
+  </div>
+
+  <div class="container">
+    <table id="submissionsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Locality</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Submissions will be inserted here dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let submissions = [];
+
+    async function fetchSubmissions() {
+      try {
+        const response = await fetch("/submissions");
+        const result = await response.json();
+        if (result.success) {
+          submissions = result.submissions;
+          displaySubmissions(submissions);
+        } else {
+          alert("Failed to fetch submissions!");
+        }
+      } catch (err) {
+        console.error("Error fetching submissions:", err);
+      }
+    }
+
+    function displaySubmissions(data) {
+      const tbody = document.querySelector("#submissionsTable tbody");
+      tbody.innerHTML = "";
+      data.forEach((entry, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${entry.name}</td>
+          <td>${entry.age}</td>
+          <td>${entry.gender}</td>
+          <td>${entry.locality}</td>
+          <td>${new Date(entry.timestamp).toLocaleString()}</td>
+        `;
+        // Highlight last 3 submissions
+        if (index >= data.length - 3) tr.classList.add("highlight");
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Search functionality
+    document.getElementById("searchInput").addEventListener("input", function() {
+      const query = this.value.toLowerCase();
+      const filtered = submissions.filter(entry => 
+        entry.name.toLowerCase().includes(query) ||
+        entry.gender.toLowerCase().includes(query) ||
+        entry.locality.toLowerCase().includes(query) ||
+        entry.age.toString().includes(query)
+      );
+      displaySubmissions(filtered);
+    });
+
+    // Fetch submissions on page load
+    window.addEventListener("DOMContentLoaded", fetchSubmissions);
+  </script>
+</body>
+</html>

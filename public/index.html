@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khan's Fitness - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="left">
+      <img src="./img/fitc.jpg" alt="Khan's Fitness Logo" />
+      <div>Khan's Fitness</div>
+    </div>
+
+    <div class="mid">
+      <ul class="navbar">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="calculator.html">Fitness Calculator</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="right">
+      <a href="tel:9179072774" class="btn">Call Us</a>
+      <a href="mailto:ahmadrajak0011@gmail.com" class="btn">Email Us</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1>Join the Best Gym of Jaipur Now</h1>
+
+    <form id="fitnessForm" method="POST" action="/submit-form">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Enter your name" required aria-label="Your Name" />
+      </div>
+      <div class="form-group">
+        <input type="number" name="age" placeholder="Enter your age" required aria-label="Your Age" />
+      </div>
+      <div class="form-group">
+        <input type="text" name="locality" placeholder="Enter your locality" required aria-label="Your Locality" />
+      </div>
+
+      <!-- Gender selection -->
+      <div class="form-group gender-selection" role="radiogroup" aria-label="Gender">
+        <input type="radio" id="male" name="gender" value="Male" required checked />
+        <label for="male">Male</label>
+
+        <input type="radio" id="female" name="gender" value="Female" />
+        <label for="female">Female</label>
+
+        <input type="radio" id="others" name="gender" value="Others" />
+        <label for="others">Others</label>
+      </div>
+
+      <button type="submit">Submit</button>
+
+      <!-- Thank you / error message -->
+      <div id="thankYouMsg" class="thank-you-message"></div>
+    </form>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const form = document.getElementById("fitnessForm");
+    const thankYouMsg = document.getElementById("thankYouMsg");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        // Send form data to backend
+        const response = await fetch("/submit-form", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        // Show message
+        thankYouMsg.innerHTML = result.success
+          ? `🎉 <strong>${result.message}</strong> 🎉`
+          : `⚠️ <strong>${result.message}</strong>`;
+        thankYouMsg.style.display = "block";
+        thankYouMsg.classList.add("animate-thankyou");
+
+        // Remove animation class after animation ends
+        thankYouMsg.addEventListener("animationend", () => {
+          thankYouMsg.classList.remove("animate-thankyou");
+        }, { once: true });
+
+        // Reset form only if success
+        if (result.success) form.reset();
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+          thankYouMsg.style.display = "none";
+        }, 3000);
+
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        thankYouMsg.innerHTML = `❌ <strong>Something went wrong. Please try again.</strong>`;
+        thankYouMsg.style.display = "block";
+      }
+    });
+  </script>
+</body>
+
+</html>

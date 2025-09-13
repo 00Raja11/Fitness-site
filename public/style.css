@@ -1,0 +1,305 @@
+/* =========================
+   GENERAL STYLES
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: url('./img/fitd.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+  color: #222;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.35);
+  z-index: -1;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 3px solid #ff6b81;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+
+header .left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+header .left img {
+  width: 55px;
+  border-radius: 15px;
+  animation: logoPulse 1.5s ease-in-out infinite alternate;
+}
+
+header .left div {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #ff6b81, #ffb86c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+header .mid ul.navbar {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+header .mid ul.navbar li a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 12px;
+  transition: all 0.4s ease;
+  background: rgba(255,255,255,0.2);
+}
+
+header .mid ul.navbar li a:hover,
+header .mid ul.navbar li a.active {
+  background: linear-gradient(45deg, #ff6b81, #ffb86c);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(255,107,129,0.5);
+}
+
+header .right a.btn {
+  margin-left: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #6bc1ff, #6bffb1);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 15px;
+  transition: all 0.4s ease;
+}
+
+header .right a.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(107, 193, 255, 0.5);
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 35px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: fadeInUp 1s ease;
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #ff6b81;
+  text-shadow: 1px 1px #ffb86c;
+}
+
+/* =========================
+   FORM STYLES
+========================= */
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 15px;
+  border: 2px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #ff6b81;
+  box-shadow: 0 0 12px rgba(255,107,129,0.4);
+}
+
+textarea { resize: none; }
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  padding: 14px 30px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(45deg, #6bc1ff, #6bffb1);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s ease;
+  margin: 5px;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #1a9fff, #1affa3);
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 8px 25px rgba(107, 193, 255, 0.5);
+}
+
+/* =========================
+   GENDER RADIO
+========================= */
+.gender-selection {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 22px;
+}
+
+.gender-selection input[type="radio"] { accent-color: #ff6b81; cursor: pointer; }
+
+.gender-selection label {
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.gender-selection input[type="radio"]:checked + label {
+  color: #ff6b81;
+  font-weight: 600;
+  transform: scale(1.15);
+}
+
+/* =========================
+   BMI & THANK YOU MESSAGE
+========================= */
+.thank-you-message,
+#thankYouMsg {
+  display: none;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 15px;
+  border-radius: 20px;
+  text-align: center;
+  color: #000; /* changed to black */
+  animation: popUp 0.6s ease forwards;
+}
+
+#thankYouMsg {
+  background: linear-gradient(135deg, #6bffb1, #6bc1ff, #ff6b81);
+  background-size: 300% 300%;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  animation: gradientMove 3s ease infinite, popUp 0.6s ease;
+  position: relative;
+}
+
+#thankYouMsg::before,
+#thankYouMsg::after {
+  content: "🏋️‍♂️";
+  position: absolute;
+  font-size: 1.5rem;
+  animation: float 2s ease-in-out infinite alternate;
+}
+
+#thankYouMsg::before { left: -25px; top: 0; }
+#thankYouMsg::after { right: -25px; top: 0; }
+
+/* =========================
+   ABOUT SECTION
+========================= */
+.about-points li,
+.about-highlights li {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  text-align: left;
+  padding-left: 30px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.about-points li::before,
+.about-highlights li::before { content: "🔥"; position: absolute; left: 0; }
+
+.about-points li:hover,
+.about-highlights li:hover { transform: scale(1.05); color: #ff4c4c; }
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popUp {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes logoPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px) rotate(-10deg); }
+  100% { transform: translateY(0) rotate(10deg); }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 992px) {
+  header { flex-direction: column; align-items: flex-start; padding: 15px 20px; }
+  header .mid ul.navbar { flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
+  .container { margin: 25px 15px; padding: 25px; }
+  .gender-selection { flex-direction: column; gap: 12px; }
+  .about-points li, .about-highlights li { font-size: 1rem; padding-left: 25px; }
+}
+
+@media (max-width: 576px) {
+  header .left div { font-size: 1.3rem; }
+  header .left img { width: 45px; }
+  button, header .right a.btn { padding: 10px 18px; font-size: 1rem; }
+  .container h1 { font-size: 2rem; }
+  .about-points li, .about-highlights li { font-size: 0.95rem; padding-left: 20px; }
+}
+.bmi-value {
+  color: #000; /* black text for BMI */
+}
+

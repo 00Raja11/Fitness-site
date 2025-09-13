@@ -1,0 +1,23 @@
+[
+  {
+    "name": "hamid",
+    "age": 23,
+    "gender": "Male",
+    "locality": "motihari",
+    "timestamp": "2025-09-13T11:22:31.552Z"
+  },
+  {
+    "name": "akil",
+    "age": 32,
+    "gender": "Male",
+    "locality": "gwalior",
+    "timestamp": "2025-09-13T11:24:40.426Z"
+  },
+  {
+    "name": "md.aurangzeb",
+    "age": 28,
+    "gender": "Male",
+    "locality": "gaya",
+    "timestamp": "2025-09-13T11:41:32.308Z"
+  }
+]
