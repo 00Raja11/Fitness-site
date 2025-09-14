@@ -3,7 +3,7 @@ const fs = require("fs").promises;
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // ✅ use Render's PORT
 
 // =========================
 // Middleware
@@ -29,6 +29,18 @@ const submissionsFile = path.join(__dirname, "submissions.json");
     console.log("📄 submissions.json created.");
   }
 })();
+
+// =========================
+// Default Route (fixes Cannot GET /)
+// =========================
+app.get("/", (req, res) => {
+  res.send("🚀 Fitness-site backend is live and working!");
+});
+
+// Health check route
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", message: "Server is healthy" });
+});
 
 // =========================
 // Form submission route
