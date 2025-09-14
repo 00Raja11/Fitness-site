@@ -66,54 +66,58 @@
     </form>
   </div>
 
-  <!-- JavaScript -->
-  <script>
-    const form = document.getElementById("fitnessForm");
-    const thankYouMsg = document.getElementById("thankYouMsg");
+<!-- JavaScript -->
+<script>
+  const BACKEND_URL = "https://fitness-site-mzhl.onrender.com"; // your Render backend URL
+  const form = document.getElementById("fitnessForm");
+  const thankYouMsg = document.getElementById("thankYouMsg");
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
-      try {
-        // Send form data to backend
-        const response = await fetch("/submit-form", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
+    try {
+      // Send form data to Render backend
+      const response = await fetch(`${BACKEND_URL}/submit-form`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        // Show message
-        thankYouMsg.innerHTML = result.success
-          ? `🎉 <strong>${result.message}</strong> 🎉`
-          : `⚠️ <strong>${result.message}</strong>`;
-        thankYouMsg.style.display = "block";
-        thankYouMsg.classList.add("animate-thankyou");
+      // Show message
+      thankYouMsg.innerHTML = result.success
+        ? `🎉 <strong>${result.message}</strong> 🎉`
+        : `⚠️ <strong>${result.message}</strong>`;
+      thankYouMsg.style.display = "block";
+      thankYouMsg.classList.add("animate-thankyou");
 
-        // Remove animation class after animation ends
-        thankYouMsg.addEventListener("animationend", () => {
-          thankYouMsg.classList.remove("animate-thankyou");
-        }, { once: true });
+      // Remove animation class after animation ends
+      thankYouMsg.addEventListener("animationend", () => {
+        thankYouMsg.classList.remove("animate-thankyou");
+      }, { once: true });
 
-        // Reset form only if success
-        if (result.success) form.reset();
+      // Reset form only if success
+      if (result.success) form.reset();
 
-        // Auto-hide after 3 seconds
-        setTimeout(() => {
-          thankYouMsg.style.display = "none";
-        }, 3000);
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        thankYouMsg.style.display = "none";
+      }, 3000);
 
-      } catch (err) {
-        console.error("Error submitting form:", err);
-        thankYouMsg.innerHTML = `❌ <strong>Something went wrong. Please try again.</strong>`;
-        thankYouMsg.style.display = "block";
-      }
-    });
-  </script>
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      // Show real error if available
+      thankYouMsg.innerHTML = `❌ <strong>Something went wrong: ${err.message}</strong>`;
+      thankYouMsg.style.display = "block";
+    }
+  });
+</script>
+
 </body>
 
 </html>
+
