@@ -48,35 +48,43 @@
   </div>
 
   <script>
-    const contactForm = document.getElementById("contactForm");
-    const contactMsg = document.getElementById("contactMsg");
-    const resetBtn = document.getElementById("resetBtn");
+  const contactForm = document.getElementById("contactForm");
+  const contactMsg = document.getElementById("contactMsg");
+  const resetBtn = document.getElementById("resetBtn");
 
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      // Show thank-you message
-      contactMsg.innerHTML = "✅ Thank you for contacting us! We’ll get back to you soon.";
-      contactMsg.style.display = "block";
-      contactMsg.classList.add("animate-thankyou");
+    const formData = {
+      name: contactForm.name.value,
+      age: contactForm.age ? contactForm.age.value : 25, // fallback if no age field
+      gender: contactForm.gender ? contactForm.gender.value : "Not specified",
+      locality: "Jaipur", // or collect from form
+    };
 
-      // Remove animation class after animation ends
-      contactMsg.addEventListener("animationend", () => {
-        contactMsg.classList.remove("animate-thankyou");
-      }, { once: true });
+    try {
+      const res = await fetch("https://your-backend.onrender.com/submit-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        contactForm.reset();
-        contactMsg.style.display = "none";
-      }, 3000);
-    });
+      const result = await res.json();
+      contactMsg.innerHTML = result.message || "✅ Thank you for contacting us!";
+    } catch (err) {
+      contactMsg.innerHTML = "⚠️ Error submitting form.";
+    }
 
-    // Reset button functionality
-    resetBtn.addEventListener("click", () => {
-      contactForm.reset();
-      contactMsg.style.display = "none";
-    });
-  </script>
+    contactMsg.style.display = "block";
+    contactForm.reset();
+  });
+
+  resetBtn.addEventListener("click", () => {
+    contactForm.reset();
+    contactMsg.style.display = "none";
+  });
+</script>
+
 </body>
 </html>
+
