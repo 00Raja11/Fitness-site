@@ -181,7 +181,7 @@ button:hover {
   justify-content: center;
   gap: 25px;
   margin-bottom: 22px;
-  flex-wrap: wrap;
+/*   flex-wrap: wrap; */
 }
 
 .gender-selection input[type="radio"] { 
@@ -399,3 +399,4 @@ button:hover {
 .bmi-value {
   color: #7e4a35; /* Updated text color */
 }
+
