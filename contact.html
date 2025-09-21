@@ -47,7 +47,7 @@
     </form>
   </div>
 
-  <script>
+<script>
   const contactForm = document.getElementById("contactForm");
   const contactMsg = document.getElementById("contactMsg");
   const resetBtn = document.getElementById("resetBtn");
@@ -63,7 +63,7 @@
     };
 
     try {
-      const res = await fetch("https://your-backend.onrender.com/submit-form", {
+      const res = await fetch("https://fitness-site-mzhl.onrender.com/submit-form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -85,6 +85,8 @@
   });
 </script>
 
+
 </body>
 </html>
+
 
